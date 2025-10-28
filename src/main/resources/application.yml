@@ -1,0 +1,76 @@
+# ========================================
+# CONFIGURACIÓN GENERAL DE LA APLICACIÓN
+# ========================================
+
+spring:
+  application:
+    name: ticketing-api
+  
+  # Perfil activo (dev, test, prod)
+  profiles:
+    active: dev
+  
+  # Configuración de MySQL (preparado para futuras fases)
+  datasource:
+    url: jdbc:mysql://localhost:3306/ticketing_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Qwe.123*}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # Configuración de JPA
+  jpa:
+    hibernate:
+      ddl-auto: update # Crea/actualiza tablas automáticamente
+    show-sql: true # Muestra SQL en consola
+    properties:
+      hibernate:
+        format_sql: true # Formatea el SQL
+        dialect: org.hibernate.dialect.MySQLDialect
+
+# ========================================
+# CONFIGURACIÓN DEL SERVIDOR
+# ========================================
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+    include-stacktrace: on_param
+
+# ========================================
+# CONFIGURACIÓN DE LOGGING
+# ========================================
+logging:
+  level:
+    root: INFO
+    com.ticketing: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+
+# ========================================
+# DOCUMENTACIÓN OPENAPI/SWAGGER
+# ========================================
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+  show-actuator: false
+
+# ========================================
+# INFORMACIÓN DE LA APLICACIÓN
+# ========================================
+info:
+  app:
+    name: Ticketing API
+    description: API REST para gestión de eventos y venues
+    version: 1.0.0
+    encoding: UTF-8
+    java:
+      version: 21
