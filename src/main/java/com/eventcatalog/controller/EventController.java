@@ -1,7 +1,7 @@
 package com.eventcatalog.controller;
 
 import com.eventcatalog.dto.EventRequestDTO;
-import com.eventcatalog.dto.EventRequestDTO;
+import com.eventcatalog.dto.EventResponseDTO;
 import com.eventcatalog.service.IEventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
