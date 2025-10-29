@@ -1,7 +1,7 @@
 package com.eventcatalog.service;
 
 import com.eventcatalog.dto.EventRequestDTO;
-import com.eventcatalog.dto.EventResponseDTO;
+import com.eventcatalog.dto.VenueRequestDTO;
 import com.eventcatalog.entity.EventEntity;
 import com.eventcatalog.entity.VenueEntity;
 import com.eventcatalog.exception.DuplicateEventException;

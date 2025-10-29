@@ -1,7 +1,7 @@
 package com.eventcatalog.service;
 
 import com.eventcatalog.dto.VenueRequestDTO;
-import com.eventcatalog.dto.VenueResponseDTO;
+import com.eventcatalog.dto.VenueRequestDTO;
 
 import java.util.List;
 
