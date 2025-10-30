@@ -7,24 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * DTO genérico para respuestas paginadas.
- * 
- * TASK 3: Proporciona metadatos de paginación junto con los datos.
- * 
- * Este DTO envuelve cualquier lista de datos con información
- * sobre la paginación, permitiendo al frontend implementar
- * navegación de páginas de manera efectiva.
- * 
- * Principios SOLID aplicados:
- * - SRP (Single Responsibility): Solo maneja la estructura de respuesta paginada
- * - OCP (Open/Closed): Genérico, puede usarse con cualquier tipo de dato
- * 
- * @param <T> Tipo de dato contenido en la página
- * 
- * @author Event Catalog Team
- * @version 1.0
- */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -102,8 +85,8 @@ public class PageResponseDTO<T> {
                 .totalPages(page.getTotalPages())
                 .first(page.isFirst())
                 .last(page.isLast())
-                .hasPrevious(page.hasPreviousPage())
-                .hasNext(page.hasNextPage())
+                .hasPrevious(page.hasPrevious())
+                .hasNext(page.hasNext())
                 .empty(page.isEmpty())
                 .sort(page.getSort().toString())
                 .build();
