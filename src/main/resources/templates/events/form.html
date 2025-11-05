@@ -114,17 +114,16 @@
                                     </div>
                                 </div>
 
-                                <!-- Lugar -->
+                                <!-- Lugar (Opcional) -->
                                 <div class="mb-3">
                                     <label for="venueId" class="form-label fw-bold">
-                                        🏢 Lugar del Evento <span class="text-danger">*</span>
+                                        🏢 Lugar del Evento (opcional)
                                     </label>
                                     <select class="form-select" 
                                             id="venueId" 
                                             th:field="*{venueId}"
-                                            th:classappend="${#fields.hasErrors('venueId') ? 'is-invalid' : ''}"
-                                            required>
-                                        <option value="">Selecciona un lugar</option>
+                                            th:classappend="${#fields.hasErrors('venueId') ? 'is-invalid' : ''}">
+                                        <option value="">Sin lugar asignado</option>
                                         <option th:each="venue : ${venues}" 
                                                 th:value="${venue.id}" 
                                                 th:text="${venue.name + ' - ' + venue.city + ' (Cap: ' + venue.capacity + ')'}">
@@ -135,6 +134,7 @@
                                          th:errors="*{venueId}">
                                         Error en lugar
                                     </div>
+                                    <small class="text-muted">Puedes asignar un lugar más tarde</small>
                                 </div>
 
                                 <!-- Fecha y Hora -->

@@ -28,7 +28,9 @@ import java.util.Optional;
  * @version 1.0
  */
 @Repository
-public interface EventRepository extends JpaRepository<EventEntity, Long> {
+public interface EventRepository extends 
+        JpaRepository<EventEntity, Long>,
+        org.springframework.data.jpa.repository.JpaSpecificationExecutor<EventEntity> {
 
     // ========================================
     // MÉTODOS DE VALIDACIÓN

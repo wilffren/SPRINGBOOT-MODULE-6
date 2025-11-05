@@ -80,16 +80,22 @@
                             
                             <hr>
                             
-                            <div class="mb-3">
+                            <div class="mb-3" th:if="${event.venue != null}">
                                 <h6 class="text-muted mb-2">📍 Ubicación</h6>
                                 <p class="mb-1 fw-bold" th:text="${event.venue.name}">Lugar</p>
                                 <p class="mb-0 small" th:text="${event.venue.address}">Dirección</p>
                                 <p class="mb-0 small text-muted" th:text="${event.city}">Ciudad</p>
                             </div>
                             
+                            <div class="mb-3" th:if="${event.venue == null}">
+                                <h6 class="text-muted mb-2">📍 Ubicación</h6>
+                                <p class="mb-0 small text-muted fst-italic">Sin lugar asignado</p>
+                                <p class="mb-0 small" th:text="${event.city}">Ciudad</p>
+                            </div>
+                            
                             <hr>
                             
-                            <div class="mb-3">
+                            <div class="mb-3" th:if="${event.venue != null}">
                                 <h6 class="text-muted mb-2">👥 Capacidad</h6>
                                 <p class="mb-0">
                                     Capacidad del lugar: <strong th:text="${event.venue.capacity}">0</strong>
@@ -138,7 +144,7 @@
                     </div>
 
                     <!-- Información del Lugar -->
-                    <div class="card mt-4">
+                    <div class="card mt-4" th:if="${event.venue != null}">
                         <div class="card-header bg-info text-white">
                             <h5 class="mb-0">🏢 Sobre el Lugar</h5>
                         </div>

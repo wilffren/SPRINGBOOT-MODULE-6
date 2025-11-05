@@ -140,8 +140,11 @@
                                 <small class="text-muted">
                                     📅 <span th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy HH:mm')}">Fecha</span>
                                 </small><br>
-                                <small class="text-muted">
+                                <small class="text-muted" th:if="${event.venue != null}">
                                     🏢 <span th:text="${event.venue.name}">Lugar</span>
+                                </small>
+                                <small class="text-muted" th:if="${event.venue == null}">
+                                    🏢 <span class="text-muted fst-italic">Sin lugar asignado</span>
                                 </small><br>
                                 <small class="text-muted">
                                     🎫 <span th:text="${event.availableTickets}">0</span> entradas disponibles

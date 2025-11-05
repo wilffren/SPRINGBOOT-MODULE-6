@@ -126,11 +126,8 @@ public class EventRequestDTO {
     /**
      * ID del lugar donde se realizará el evento.
      * Validaciones:
-     * - No puede ser nulo
-     * - Debe ser un número positivo
+     * - Campo opcional (puede ser null)
      */
-    @NotNull(message = "El ID del lugar (venue) es obligatorio")
-    @Positive(message = "El ID del lugar debe ser un número positivo")
     private Long venueId;
 
     /**

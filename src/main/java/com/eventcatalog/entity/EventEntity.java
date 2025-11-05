@@ -103,12 +103,12 @@ public class EventEntity {
      * Múltiples eventos pueden realizarse en el mismo lugar
      * 
      * fetch = LAZY: Carga perezosa para optimizar rendimiento
-     * optional = false: El evento DEBE tener un lugar asignado
+     * optional = true: El evento puede NO tener un lugar asignado
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(
         name = "venue_id", 
-        nullable = false,
+        nullable = true,
         foreignKey = @ForeignKey(name = "fk_event_venue")
     )
     private VenueEntity venue;

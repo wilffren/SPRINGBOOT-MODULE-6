@@ -141,7 +141,15 @@ public class WebEventController {
         log.info("GET /web/events/new - Mostrando formulario de creación");
         
         model.addAttribute("eventRequest", new EventRequestDTO());
-        model.addAttribute("venues", venueService.findAll());
+        
+        // Cargar venues, si no hay ninguno, la lista estará vacía
+        try {
+            model.addAttribute("venues", venueService.findAll());
+        } catch (Exception e) {
+            log.warn("No se pudieron cargar los venues: {}", e.getMessage());
+            model.addAttribute("venues", List.of());
+        }
+        
         model.addAttribute("cities", List.of("Bogotá", "Medellín", "Cali", "Barranquilla"));
         model.addAttribute("categories", List.of("Concierto", "Teatro", "Deporte", "Conferencia", "Exposición"));
         
