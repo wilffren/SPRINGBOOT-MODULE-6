@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Eventos</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="display-5 fw-bold">📅 Catálogo de Eventos</h1>
+                <p class="lead">Explora y gestiona todos los eventos disponibles</p>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <!-- Filtros -->
+            <div class="filter-card mb-4">
+                <form th:action="@{/web/events}" method="get">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">🔍 Buscar</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   name="searchTerm" 
+                                   th:value="${filters.searchTerm}"
+                                   placeholder="Nombre o descripción...">
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">📍 Ciudad</label>
+                            <select class="form-select" name="city" th:field="${filters.city}">
+                                <option value="">Todas</option>
+                                <option th:each="city : ${cities}" 
+                                        th:value="${city}" 
+                                        th:text="${city}">Ciudad</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">🎭 Categoría</label>
+                            <select class="form-select" name="category" th:field="${filters.category}">
+                                <option value="">Todas</option>
+                                <option th:each="cat : ${categories}" 
+                                        th:value="${cat}" 
+                                        th:text="${cat}">Categoría</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">📆 Desde</label>
+                            <input type="datetime-local" 
+                                   class="form-control" 
+                                   name="startDate"
+                                   th:value="${filters.startDate != null ? #temporals.format(filters.startDate, 'yyyy-MM-dd\'T\'HH:mm') : ''}">
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label class="form-label fw-bold">📊 Ordenar</label>
+                            <select class="form-select" name="sort">
+                                <option value="eventDate,asc" th:selected="${currentSort == 'eventDate,asc'}">Fecha ↑</option>
+                                <option value="eventDate,desc" th:selected="${currentSort == 'eventDate,desc'}">Fecha ↓</option>
+                                <option value="name,asc" th:selected="${currentSort == 'name,asc'}">Nombre A-Z</option>
+                                <option value="name,desc" th:selected="${currentSort == 'name,desc'}">Nombre Z-A</option>
+                                <option value="price,asc" th:selected="${currentSort == 'price,asc'}">Precio ↑</option>
+                                <option value="price,desc" th:selected="${currentSort == 'price,desc'}">Precio ↓</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                Filtrar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3" th:if="${filters.hasAnyFilter()}">
+                        <a th:href="@{/web/events}" class="btn btn-sm btn-outline-secondary">
+                            🔄 Limpiar Filtros
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Resultados -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p class="text-muted mb-0">
+                    Mostrando <strong th:text="${eventsPage.content.size()}">0</strong> de 
+                    <strong th:text="${eventsPage.totalElements}">0</strong> eventos
+                </p>
+                <a th:href="@{/web/events/new}" class="btn btn-primary">
+                    ➕ Crear Evento
+                </a>
+            </div>
+
+            <!-- Sin resultados -->
+            <div th:if="${eventsPage.empty}" class="alert alert-info text-center">
+                <h5>No se encontraron eventos</h5>
+                <p class="mb-0">Intenta ajustar los filtros o 
+                    <a th:href="@{/web/events/new}" class="alert-link">crea un nuevo evento</a>
+                </p>
+            </div>
+
+            <!-- Tarjetas de Eventos -->
+            <div class="row" th:if="${!eventsPage.empty}">
+                <div class="col-md-4 mb-4" th:each="event : ${eventsPage.content}">
+                    <div class="card h-100">
+                        <img th:if="${event.imageUrl}" 
+                             th:src="${event.imageUrl}" 
+                             class="event-image" 
+                             th:alt="${event.name}"
+                             onerror="this.src='https://via.placeholder.com/400x200?text=Evento'">
+                        <img th:unless="${event.imageUrl}" 
+                             src="https://via.placeholder.com/400x200?text=Evento" 
+                             class="event-image" 
+                             alt="Evento">
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary" th:text="${event.category}">Categoría</span>
+                                <span class="badge" 
+                                      th:classappend="${event.status == 'ACTIVE' ? 'bg-success' : 'bg-secondary'}"
+                                      th:text="${event.status}">Estado</span>
+                            </div>
+                            
+                            <h5 class="card-title" th:text="${event.name}">Nombre del Evento</h5>
+                            
+                            <p class="card-text text-muted small" 
+                               th:text="${#strings.abbreviate(event.description, 80)}">
+                                Descripción...
+                            </p>
+                            
+                            <hr>
+                            
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    📍 <span th:text="${event.city}">Ciudad</span>
+                                </small><br>
+                                <small class="text-muted">
+                                    📅 <span th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                                </small><br>
+                                <small class="text-muted">
+                                    🏢 <span th:text="${event.venue.name}">Lugar</span>
+                                </small><br>
+                                <small class="text-muted">
+                                    🎫 <span th:text="${event.availableTickets}">0</span> entradas disponibles
+                                </small>
+                            </div>
+                            
+                            <h4 class="text-primary mt-2">
+                                $<span th:text="${#numbers.formatDecimal(event.price, 0, 'COMMA', 0, 'POINT')}">0</span>
+                            </h4>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-0">
+                            <div class="btn-group w-100" role="group">
+                                <a th:href="@{/web/events/{id}(id=${event.id})}" 
+                                   class="btn btn-outline-primary">
+                                    👁️ Ver
+                                </a>
+                                <a th:href="@{/web/events/{id}/edit(id=${event.id})}" 
+                                   class="btn btn-outline-warning">
+                                    ✏️ Editar
+                                </a>
+                                <form th:action="@{/web/events/{id}/delete(id=${event.id})}" 
+                                      method="post" 
+                                      style="display: inline;"
+                                      onsubmit="return confirm('¿Estás seguro de eliminar este evento?');">
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        🗑️ Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <nav th:if="${eventsPage.totalPages > 1}" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <!-- Primera página -->
+                    <li class="page-item" th:classappend="${eventsPage.first ? 'disabled' : ''}">
+                        <a class="page-link" 
+                           th:href="@{/web/events(page=0, size=${currentSize}, sort=${currentSort}, city=${filters.city}, category=${filters.category}, searchTerm=${filters.searchTerm})}">
+                            ««
+                        </a>
+                    </li>
+                    
+                    <!-- Página anterior -->
+                    <li class="page-item" th:classappend="${!eventsPage.hasPrevious ? 'disabled' : ''}">
+                        <a class="page-link" 
+                           th:href="@{/web/events(page=${currentPage - 1}, size=${currentSize}, sort=${currentSort}, city=${filters.city}, category=${filters.category}, searchTerm=${filters.searchTerm})}">
+                            «
+                        </a>
+                    </li>
+                    
+                    <!-- Páginas numeradas -->
+                    <li class="page-item" 
+                        th:each="i : ${#numbers.sequence(0, eventsPage.totalPages - 1)}"
+                        th:if="${i >= currentPage - 2 && i <= currentPage + 2}"
+                        th:classappend="${i == currentPage ? 'active' : ''}">
+                        <a class="page-link" 
+                           th:href="@{/web/events(page=${i}, size=${currentSize}, sort=${currentSort}, city=${filters.city}, category=${filters.category}, searchTerm=${filters.searchTerm})}"
+                           th:text="${i + 1}">1</a>
+                    </li>
+                    
+                    <!-- Página siguiente -->
+                    <li class="page-item" th:classappend="${!eventsPage.hasNext ? 'disabled' : ''}">
+                        <a class="page-link" 
+                           th:href="@{/web/events(page=${currentPage + 1}, size=${currentSize}, sort=${currentSort}, city=${filters.city}, category=${filters.category}, searchTerm=${filters.searchTerm})}">
+                            »
+                        </a>
+                    </li>
+                    
+                    <!-- Última página -->
+                    <li class="page-item" th:classappend="${eventsPage.last ? 'disabled' : ''}">
+                        <a class="page-link" 
+                           th:href="@{/web/events(page=${eventsPage.totalPages - 1}, size=${currentSize}, sort=${currentSort}, city=${filters.city}, category=${filters.category}, searchTerm=${filters.searchTerm})}">
+                            »»
+                        </a>
+                    </li>
+                </ul>
+                
+                <p class="text-center text-muted">
+                    Página <strong th:text="${currentPage + 1}">1</strong> de 
+                    <strong th:text="${eventsPage.totalPages}">1</strong>
+                </p>
+            </nav>
+        </div>
+    </main>
+</body>
+</html>

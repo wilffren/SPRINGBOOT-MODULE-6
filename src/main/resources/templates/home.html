@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Inicio</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <!-- Hero Section -->
+        <div class="page-header">
+            <div class="container text-center">
+                <h1 class="display-4 fw-bold mb-3">🎭 Descubre Eventos Increíbles</h1>
+                <p class="lead mb-4">Los mejores eventos de música, teatro, deportes y más</p>
+                <a th:href="@{/web/events}" class="btn btn-light btn-lg px-5">
+                    Explorar Eventos
+                </a>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <!-- Estadísticas -->
+            <div class="row text-center mb-5">
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <h2 class="text-primary mb-0" th:text="${#lists.size(upcomingEvents)}">0</h2>
+                        <p class="text-muted mb-0">Eventos Próximos</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <h2 class="text-success mb-0">5</h2>
+                        <p class="text-muted mb-0">Categorías</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <h2 class="text-warning mb-0">4</h2>
+                        <p class="text-muted mb-0">Ciudades</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <h2 class="text-info mb-0">100%</h2>
+                        <p class="text-muted mb-0">Satisfacción</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eventos Destacados -->
+            <h2 class="mb-4">✨ Eventos Destacados</h2>
+
+            <div th:if="${#lists.isEmpty(upcomingEvents)}" class="alert alert-info">
+                <h5>No hay eventos disponibles</h5>
+                <p class="mb-0">
+                    <a th:href="@{/web/events/new}" class="alert-link">Crear el primer evento</a>
+                </p>
+            </div>
+
+            <div class="row" th:if="${!#lists.isEmpty(upcomingEvents)}">
+                <div class="col-md-4 mb-4" th:each="event : ${upcomingEvents}">
+                    <div class="card h-100">
+                        <img th:if="${event.imageUrl}" 
+                             th:src="${event.imageUrl}" 
+                             class="event-image" 
+                             th:alt="${event.name}"
+                             onerror="this.src='https://via.placeholder.com/400x200?text=Evento'">
+                        <img th:unless="${event.imageUrl}" 
+                             src="https://via.placeholder.com/400x200?text=Evento" 
+                             class="event-image" 
+                             alt="Evento">
+                        
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2" th:text="${event.category}">Categoría</span>
+                            <h5 class="card-title" th:text="${event.name}">Nombre del Evento</h5>
+                            <p class="card-text text-muted small" th:text="${#strings.abbreviate(event.description, 100)}">
+                                Descripción del evento...
+                            </p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div>
+                                    <small class="text-muted">
+                                        📍 <span th:text="${event.city}">Ciudad</span>
+                                    </small><br>
+                                    <small class="text-muted">
+                                        📅 <span th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                                    </small>
+                                </div>
+                                <div class="text-end">
+                                    <h5 class="text-primary mb-0">
+                                        $<span th:text="${#numbers.formatDecimal(event.price, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-0">
+                            <a th:href="@{/web/events/{id}(id=${event.id})}" 
+                               class="btn btn-primary w-100">
+                                Ver Detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón Ver Todos -->
+            <div class="text-center mt-4" th:if="${!#lists.isEmpty(upcomingEvents)}">
+                <a th:href="@{/web/events}" class="btn btn-outline-primary btn-lg">
+                    Ver Todos los Eventos →
+                </a>
+            </div>
+
+            <!-- Categorías -->
+            <div class="row mt-5 mb-5">
+                <div class="col-12">
+                    <h2 class="mb-4">🎯 Categorías Populares</h2>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events(category='Concierto')}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>🎸</h3>
+                        <p class="mb-0 fw-bold">Conciertos</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events(category='Teatro')}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>🎭</h3>
+                        <p class="mb-0 fw-bold">Teatro</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events(category='Deporte')}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>⚽</h3>
+                        <p class="mb-0 fw-bold">Deportes</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events(category='Conferencia')}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>💼</h3>
+                        <p class="mb-0 fw-bold">Conferencias</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events(category='Exposición')}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>🎨</h3>
+                        <p class="mb-0 fw-bold">Exposiciones</p>
+                    </a>
+                </div>
+                <div class="col-md-2 col-6 mb-3">
+                    <a th:href="@{/web/events}" 
+                       class="card text-center p-3 text-decoration-none">
+                        <h3>🌟</h3>
+                        <p class="mb-0 fw-bold">Ver Todo</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

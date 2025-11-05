@@ -75,7 +75,13 @@ logging:
   file:
     name: logs/event-catalog.log
 
-# Configuración de validación
+# Configuración de Thymeleaf
+  thymeleaf:
+    cache: false  # Desactivar caché en desarrollo
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
 
 # Configuración de mensajes de error personalizados
 server.error:

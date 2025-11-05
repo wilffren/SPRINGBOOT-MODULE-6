@@ -1,7 +1,10 @@
 package com.eventcatalog.service;
 
+import com.eventcatalog.dto.EventFilterDTO;
 import com.eventcatalog.dto.EventRequestDTO;
 import com.eventcatalog.dto.EventResponseDTO;
+import com.eventcatalog.dto.PageResponseDTO;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -45,6 +48,30 @@ public interface IEventService {
      * @return Lista de eventos
      */
     List<EventResponseDTO> findAll();
+
+    /**
+     * Obtiene eventos con paginación y ordenamiento.
+     * 
+     * TASK 3: Implementa paginación con Pageable.
+     * 
+     * @param pageable Configuración de paginación (page, size, sort)
+     * @return Página de eventos
+     */
+    PageResponseDTO<EventResponseDTO> findAllPaginated(Pageable pageable);
+
+    /**
+     * Busca eventos aplicando filtros opcionales con paginación.
+     * 
+     * TASK 3: Filtros opcionales por ciudad, categoría, fechaInicio.
+     * 
+     * @param filters DTO con filtros opcionales
+     * @param pageable Configuración de paginación
+     * @return Página de eventos filtrados
+     */
+    PageResponseDTO<EventResponseDTO> findWithFilters(
+        EventFilterDTO filters,
+        Pageable pageable
+    );
 
     /**
      * Busca eventos por ciudad.
