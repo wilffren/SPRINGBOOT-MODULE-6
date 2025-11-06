@@ -1,264 +1,152 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${eventId != null ? 'Editar Evento' : 'Crear Evento'}">Formulario de Evento</title>
+    <meta charset="UTF-8">
+    <title>Crear Nuevo Evento</title>
+
+    <!-- 🎨 Estilos integrados -->
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            background: #fff;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 12px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            padding: 8px 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button, a.button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover, a.button:hover {
+            background-color: #0056b3;
+        }
+
+        a.cancel {
+            background-color: #6c757d;
+        }
+
+        a.cancel:hover {
+            background-color: #5a6268;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <main layout:fragment="content">
-        <div class="container mt-4">
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
-                    <li class="breadcrumb-item"><a th:href="@{/web/events}">Eventos</a></li>
-                    <li class="breadcrumb-item active" 
-                        th:text="${eventId != null ? 'Editar' : 'Crear'}">Formulario</li>
-                </ol>
-            </nav>
+<div class="container">
+    <h1 th:text="${event.id} == null ? 'Crear Nuevo Evento' : 'Editar Evento'"></h1>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0" th:text="${eventId != null ? '✏️ Editar Evento' : '➕ Crear Nuevo Evento'}">
-                                Formulario
-                            </h4>
-                        </div>
-                        
-                        <div class="card-body">
-                            <!-- Formulario -->
-                            <form th:action="${eventId != null ? '/web/events/' + eventId : '/web/events'}" 
-                                  method="post" 
-                                  th:object="${eventRequest}">
-                                
-                                <!-- Nombre -->
-                                <div class="mb-3">
-                                    <label for="name" class="form-label fw-bold">
-                                        📝 Nombre del Evento <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           id="name" 
-                                           th:field="*{name}"
-                                           th:classappend="${#fields.hasErrors('name') ? 'is-invalid' : ''}"
-                                           placeholder="Ej: Concierto de Rock 2025"
-                                           required>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" 
-                                         th:errors="*{name}">
-                                        Error en nombre
-                                    </div>
-                                    <small class="text-muted">Entre 5 y 150 caracteres</small>
-                                </div>
+    <form th:action="@{/web/events/save}" th:object="${event}" method="post">
+        <input type="hidden" th:field="*{id}"/>
 
-                                <!-- Descripción -->
-                                <div class="mb-3">
-                                    <label for="description" class="form-label fw-bold">
-                                        📄 Descripción <span class="text-danger">*</span>
-                                    </label>
-                                    <textarea class="form-control" 
-                                              id="description" 
-                                              th:field="*{description}"
-                                              th:classappend="${#fields.hasErrors('description') ? 'is-invalid' : ''}"
-                                              rows="4"
-                                              placeholder="Describe el evento en detalle..."
-                                              required></textarea>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" 
-                                         th:errors="*{description}">
-                                        Error en descripción
-                                    </div>
-                                    <small class="text-muted">Entre 20 y 1000 caracteres</small>
-                                </div>
+        <label for="name">Nombre del Evento:</label>
+        <input type="text" id="name" th:field="*{name}" required/>
 
-                                <!-- Fila: Categoría y Ciudad -->
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="category" class="form-label fw-bold">
-                                            🎭 Categoría <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-select" 
-                                                id="category" 
-                                                th:field="*{category}"
-                                                th:classappend="${#fields.hasErrors('category') ? 'is-invalid' : ''}"
-                                                required>
-                                            <option value="">Selecciona una categoría</option>
-                                            <option th:each="cat : ${categories}" 
-                                                    th:value="${cat}" 
-                                                    th:text="${cat}">Categoría</option>
-                                        </select>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('category')}" 
-                                             th:errors="*{category}">
-                                            Error en categoría
-                                        </div>
-                                    </div>
+        <label for="description">Descripción:</label>
+        <textarea id="description" th:field="*{description}" rows="3" required></textarea>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label for="city" class="form-label fw-bold">
-                                            📍 Ciudad <span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-select" 
-                                                id="city" 
-                                                th:field="*{city}"
-                                                th:classappend="${#fields.hasErrors('city') ? 'is-invalid' : ''}"
-                                                required>
-                                            <option value="">Selecciona una ciudad</option>
-                                            <option th:each="city : ${cities}" 
-                                                    th:value="${city}" 
-                                                    th:text="${city}">Ciudad</option>
-                                        </select>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}" 
-                                             th:errors="*{city}">
-                                            Error en ciudad
-                                        </div>
-                                    </div>
-                                </div>
+        <label for="category">Categoría:</label>
+        <input type="text" id="category" th:field="*{category}" required/>
 
-                                <!-- Lugar (Opcional) -->
-                                <div class="mb-3">
-                                    <label for="venueId" class="form-label fw-bold">
-                                        🏢 Lugar del Evento (opcional)
-                                    </label>
-                                    <select class="form-select" 
-                                            id="venueId" 
-                                            th:field="*{venueId}"
-                                            th:classappend="${#fields.hasErrors('venueId') ? 'is-invalid' : ''}">
-                                        <option value="">Sin lugar asignado</option>
-                                        <option th:each="venue : ${venues}" 
-                                                th:value="${venue.id}" 
-                                                th:text="${venue.name + ' - ' + venue.city + ' (Cap: ' + venue.capacity + ')'}">
-                                            Lugar
-                                        </option>
-                                    </select>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('venueId')}" 
-                                         th:errors="*{venueId}">
-                                        Error en lugar
-                                    </div>
-                                    <small class="text-muted">Puedes asignar un lugar más tarde</small>
-                                </div>
+        <label for="city">Ciudad:</label>
+        <input type="text" id="city" th:field="*{city}" required/>
 
-                                <!-- Fecha y Hora -->
-                                <div class="mb-3">
-                                    <label for="eventDate" class="form-label fw-bold">
-                                        📅 Fecha y Hora del Evento <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="datetime-local" 
-                                           class="form-control" 
-                                           id="eventDate" 
-                                           th:field="*{eventDate}"
-                                           th:classappend="${#fields.hasErrors('eventDate') ? 'is-invalid' : ''}"
-                                           required>
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('eventDate')}" 
-                                         th:errors="*{eventDate}">
-                                        Error en fecha
-                                    </div>
-                                    <small class="text-muted">La fecha debe ser futura</small>
-                                </div>
+        <label for="eventDate">Fecha y hora:</label>
+        <input type="datetime-local" id="eventDate"
+               th:field="*{eventDate}"
+               th:value="${event.eventDate != null} ? ${#dates.format(event.eventDate, 'yyyy-MM-dd\'T\'HH:mm')} : ''"
+               required/>
 
-                                <!-- Fila: Precio y Entradas -->
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="price" class="form-label fw-bold">
-                                            💰 Precio (COP) <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="number" 
-                                               class="form-control" 
-                                               id="price" 
-                                               th:field="*{price}"
-                                               th:classappend="${#fields.hasErrors('price') ? 'is-invalid' : ''}"
-                                               min="0"
-                                               step="0.01"
-                                               placeholder="0.00"
-                                               required>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" 
-                                             th:errors="*{price}">
-                                            Error en precio
-                                        </div>
-                                        <small class="text-muted">Mínimo: $0.01</small>
-                                    </div>
+        <label for="price">Precio:</label>
+        <input type="number" id="price" th:field="*{price}" step="0.01" required/>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label for="availableTickets" class="form-label fw-bold">
-                                            🎫 Entradas Disponibles <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="number" 
-                                               class="form-control" 
-                                               id="availableTickets" 
-                                               th:field="*{availableTickets}"
-                                               th:classappend="${#fields.hasErrors('availableTickets') ? 'is-invalid' : ''}"
-                                               min="1"
-                                               placeholder="100"
-                                               required>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('availableTickets')}" 
-                                             th:errors="*{availableTickets}">
-                                            Error en entradas
-                                        </div>
-                                        <small class="text-muted">Mínimo: 1</small>
-                                    </div>
-                                </div>
+        <label for="availableTickets">Entradas disponibles:</label>
+        <input type="number" id="availableTickets" th:field="*{availableTickets}" required/>
 
-                                <!-- URL de Imagen -->
-                                <div class="mb-3">
-                                    <label for="imageUrl" class="form-label fw-bold">
-                                        🖼️ URL de la Imagen (opcional)
-                                    </label>
-                                    <input type="url" 
-                                           class="form-control" 
-                                           id="imageUrl" 
-                                           th:field="*{imageUrl}"
-                                           th:classappend="${#fields.hasErrors('imageUrl') ? 'is-invalid' : ''}"
-                                           placeholder="https://ejemplo.com/imagen.jpg">
-                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('imageUrl')}" 
-                                         th:errors="*{imageUrl}">
-                                        Error en URL
-                                    </div>
-                                    <small class="text-muted">Debe comenzar con http:// o https://</small>
-                                </div>
+        <label for="imageUrl">URL de la imagen:</label>
+        <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
 
-                                <!-- Estado (solo si está editando) -->
-                                <div class="mb-3" th:if="${eventId != null}">
-                                    <label for="status" class="form-label fw-bold">
-                                        🔄 Estado
-                                    </label>
-                                    <select class="form-select" 
-                                            id="status" 
-                                            th:field="*{status}">
-                                        <option value="ACTIVE">Activo</option>
-                                        <option value="CANCELLED">Cancelado</option>
-                                        <option value="COMPLETED">Completado</option>
-                                        <option value="POSTPONED">Pospuesto</option>
-                                    </select>
-                                </div>
+        <label for="status">Estado:</label>
+        <select id="status" th:field="*{status}">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
 
-                                <hr>
-
-                                <!-- Botones -->
-                                <div class="d-flex justify-content-between">
-                                    <a th:href="@{/web/events}" class="btn btn-outline-secondary">
-                                        ← Cancelar
-                                    </a>
-                                    <button type="submit" class="btn btn-primary px-5">
-                                        <span th:if="${eventId == null}">✓ Crear Evento</span>
-                                        <span th:if="${eventId != null}">✓ Guardar Cambios</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Ayuda -->
-                    <div class="alert alert-info mt-3">
-                        <h6>💡 Consejos:</h6>
-                        <ul class="mb-0">
-                            <li>Asegúrate de completar todos los campos marcados con <span class="text-danger">*</span></li>
-                            <li>La fecha del evento debe ser futura</li>
-                            <li>Verifica que el lugar seleccionado esté en la misma ciudad del evento</li>
-                            <li>Usa una descripción atractiva para captar la atención del público</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="button-group">
+            <button type="submit">Guardar</button>
+            <a th:href="@{/web/events}" class="button cancel">Cancelar</a>
         </div>
-    </main>
+    </form>
+</div>
 </body>
 </html>

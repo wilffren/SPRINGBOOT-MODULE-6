@@ -11,21 +11,26 @@ import java.time.LocalDateTime;
 
 /**
  * DTO (Data Transfer Object) para recibir datos de creación/actualización de eventos.
- * 
+ *
  * Principios SOLID aplicados:
  * - SRP (Single Responsibility): Solo maneja la transferencia de datos de entrada
  * - DIP (Dependency Inversion): No depende de la entidad directamente
- * 
+ *
  * TASK 2: Implementa validaciones exhaustivas con Bean Validation
- * 
+ *
  * @author Event Catalog Team
- * @version 1.0
+ * @version 1.1
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class EventRequestDTO {
+
+    /**
+     * ID del evento (solo se usa en actualizaciones)
+     */
+    private Long id;
 
     /**
      * Nombre del evento.
@@ -74,9 +79,8 @@ public class EventRequestDTO {
      * Validaciones:
      * - No puede ser nula
      * - Debe ser una fecha futura
-     * 
+     *
      * Nota: @Future valida que la fecha sea estrictamente futura
-     * @FutureOrPresent permitiría la fecha actual
      */
     @NotNull(message = "La fecha del evento es obligatoria")
     @Future(message = "La fecha del evento debe ser futura")
@@ -117,7 +121,7 @@ public class EventRequestDTO {
      * - Máximo 500 caracteres
      */
     @Pattern(
-        regexp = "^(https?://).*$", 
+        regexp = "^(https?://).*$",
         message = "La URL debe comenzar con http:// o https://"
     )
     @Size(max = 500, message = "La URL no puede exceder 500 caracteres")

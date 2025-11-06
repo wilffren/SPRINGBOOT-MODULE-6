@@ -3,186 +3,27 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Event Catalog</title>
-    
-    <!-- Bootstrap CSS -->
-    <link th:href="@{/webjars/bootstrap/5.3.0/css/bootstrap.min.css}" rel="stylesheet">
-    
-    <!-- Custom CSS -->
-    <style>
-        :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #06b6d4;
-            --dark-color: #1e293b;
-            --light-color: #f1f5f9;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-color);
-        }
-
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            transition: all 0.3s;
-        }
-
-        .nav-link:hover {
-            color: white !important;
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            border: none;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-        }
-
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-        }
-
-        .footer {
-            background: var(--dark-color);
-            color: white;
-            padding: 2rem 0;
-            margin-top: 4rem;
-        }
-
-        .badge-custom {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
-
-        .alert {
-            border-radius: 12px;
-            border: none;
-        }
-
-        .event-image {
-            height: 200px;
-            object-fit: cover;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .filter-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 20px 20px;
-        }
-    </style>
+    <title th:text="${pageTitle} ?: 'Event Catalog'">Event Catalog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
-                🎭 Event Catalog
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/web/events}">Eventos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/web/venues}">Lugares</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/web/events/new}">
-                            Crear Evento
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/api/events}" target="_blank">API REST</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mensajes Flash -->
-    <div class="container mt-3" th:if="${success}">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>✓ Éxito!</strong> <span th:text="${success}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">🎟️ EventCatalog</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/web/events}">Eventos</a></li>
+            </ul>
         </div>
     </div>
+</nav>
 
-    <div class="container mt-3" th:if="${error}">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>✗ Error!</strong> <span th:text="${error}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
+<section layout:fragment="content" class="mt-4"></section>
 
-    <!-- Contenido Principal -->
-    <main layout:fragment="content">
-        <!-- El contenido de cada página se inserta aquí -->
-    </main>
+<footer class="text-center text-muted py-3 mt-4 border-top">
+    © 2025 EventCatalog — Todos los derechos reservados.
+</footer>
 
-    <!-- Footer -->
-    <footer class="footer mt-5">
-        <div class="container text-center">
-            <p class="mb-0">© 2025 Event Catalog | Desarrollado con Spring Boot & Thymeleaf</p>
-            <p class="mb-0 mt-2">
-                <small>
-                    <a href="#" class="text-white-50 text-decoration-none me-3">Términos</a>
-                    <a href="#" class="text-white-50 text-decoration-none me-3">Privacidad</a>
-                    <a href="#" class="text-white-50 text-decoration-none">Contacto</a>
-                </small>
-            </p>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS -->
-    <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-    
-    <!-- Scripts adicionales -->
-    <th:block layout:fragment="scripts">
-        <!-- Scripts específicos de cada página -->
-    </th:block>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
