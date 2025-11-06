@@ -1,152 +1,108 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>Crear Nuevo Evento</title>
-
-    <!-- 🎨 Estilos integrados -->
-    <style>
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f6fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            background: #fff;
-            margin: 40px auto;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2d3436;
-            margin-bottom: 25px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-weight: bold;
-            margin-top: 12px;
-            color: #333;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="datetime-local"],
-        textarea,
-        select {
-            padding: 8px 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        button, a.button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 16px;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
-        }
-
-        button:hover, a.button:hover {
-            background-color: #0056b3;
-        }
-
-        a.cancel {
-            background-color: #6c757d;
-        }
-
-        a.cancel:hover {
-            background-color: #5a6268;
-        }
-
-        .form-footer {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-        }
-
-        .form-footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
-<div class="container">
-    <h1 th:text="${event.id} == null ? 'Crear Nuevo Evento' : 'Editar Evento'"></h1>
+<main layout:fragment="content">
+    <div class="container mt-4">
+        <div class="card shadow p-4">
+            <h2 class="mb-4 fw-bold">🎉 Crear Nuevo Evento</h2>
 
-    <form th:action="@{/web/events/save}" th:object="${event}" method="post">
-        <input type="hidden" th:field="*{id}"/>
+            <form th:action="@{/web/events/save}" th:object="${event}" method="post" class="needs-validation" novalidate>
 
-        <label for="name">Nombre del Evento:</label>
-        <input type="text" id="name" th:field="*{name}" required/>
+                <!-- Campo oculto para editar -->
+                <input type="hidden" th:field="*{id}" />
 
-        <label for="description">Descripción:</label>
-        <textarea id="description" th:field="*{description}" rows="3" required></textarea>
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">Nombre del evento:</label>
+                    <input type="text" th:field="*{name}" class="form-control" id="name"
+                           placeholder="Ej. Concierto de Rock" required />
+                    <div class="invalid-feedback">El nombre es obligatorio.</div>
+                </div>
 
-        <label for="category">Categoría:</label>
-        <input type="text" id="category" th:field="*{category}" required/>
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Descripción:</label>
+                    <textarea th:field="*{description}" class="form-control" id="description" rows="3"
+                              placeholder="Describe el evento..." required></textarea>
+                </div>
 
-        <label for="city">Ciudad:</label>
-        <input type="text" id="city" th:field="*{city}" required/>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label fw-semibold">Categoría:</label>
+                        <input type="text" th:field="*{category}" class="form-control" id="category"
+                               placeholder="Ej. Música, Teatro, Deporte" required />
+                    </div>
 
-        <label for="eventDate">Fecha y hora:</label>
-        <input type="datetime-local" id="eventDate"
-               th:field="*{eventDate}"
-               th:value="${event.eventDate != null} ? ${#dates.format(event.eventDate, 'yyyy-MM-dd\'T\'HH:mm')} : ''"
-               required/>
+                    <div class="col-md-6 mb-3">
+                        <label for="city" class="form-label fw-semibold">Ciudad:</label>
+                        <input type="text" th:field="*{city}" class="form-control" id="city"
+                               placeholder="Ej. Madrid, Bogotá, CDMX" required />
+                    </div>
+                </div>
 
-        <label for="price">Precio:</label>
-        <input type="number" id="price" th:field="*{price}" step="0.01" required/>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="eventDate" class="form-label fw-semibold">Fecha del evento:</label>
+                        <input type="datetime-local" th:field="*{eventDate}" class="form-control" id="eventDate" required />
+                    </div>
 
-        <label for="availableTickets">Entradas disponibles:</label>
-        <input type="number" id="availableTickets" th:field="*{availableTickets}" required/>
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label fw-semibold">Precio:</label>
+                        <input type="number" step="0.01" th:field="*{price}" class="form-control" id="price" required />
+                    </div>
+                </div>
 
-        <label for="imageUrl">URL de la imagen:</label>
-        <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="https://..."/>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="availableTickets" class="form-label fw-semibold">Entradas disponibles:</label>
+                        <input type="number" th:field="*{availableTickets}" class="form-control" id="availableTickets" required />
+                    </div>
 
-        <label for="status">Estado:</label>
-        <select id="status" th:field="*{status}">
-            <option value="Activo">Activo</option>
-            <option value="Inactivo">Inactivo</option>
-        </select>
+                    <div class="col-md-6 mb-3">
+                        <label for="imageUrl" class="form-label fw-semibold">URL de imagen:</label>
+                        <input type="url" th:field="*{imageUrl}" class="form-control" id="imageUrl"
+                               placeholder="https://..." />
+                    </div>
+                </div>
 
-        <div class="button-group">
-            <button type="submit">Guardar</button>
-            <a th:href="@{/web/events}" class="button cancel">Cancelar</a>
+                <div class="mb-4">
+                    <label for="status" class="form-label fw-semibold">Estado:</label>
+                    <select th:field="*{status}" class="form-select" id="status">
+                        <option value="ACTIVE">Activo</option>
+                        <option value="CANCELLED">Cancelado</option>
+                        <option value="COMPLETED">Completado</option>
+                        <option value="POSTPONED">Pospuesto</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success me-2">💾 Guardar</button>
+                    <a th:href="@{/web/events}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
+    </div>
+
+    <script>
+        // Validación bootstrap
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</main>
 </body>
 </html>

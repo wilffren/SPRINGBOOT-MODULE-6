@@ -3,16 +3,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
+    <meta charset="UTF-8">
     <title>Listado de Eventos</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div class="container mt-4">
+
         <!-- Encabezado -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>🎟️ Catálogo de Eventos</h2>
-            
+            <a th:href="@{/web/events/new}" class="btn btn-primary">➕ Nuevo Evento</a>
         </div>
+
+        <!-- ✅ Mensajes flash -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
         <!-- Tabla de eventos -->
         <div class="card shadow">
@@ -27,27 +33,39 @@
                             <th>Fecha</th>
                             <th>Precio</th>
                             <th>Entradas</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- ✅ Iterar lista de eventos -->
                         <tr th:each="event : ${events}">
                             <td th:text="${event.id}">1</td>
                             <td th:text="${event.name}">Concierto</td>
-                            <td th:text="${event.category}">Concierto</td>
+                            <td th:text="${event.category}">Música</td>
                             <td th:text="${event.city}">Bogotá</td>
                             <td th:text="${#temporals.format(event.eventDate, 'dd/MM/yyyy HH:mm')}">2025-12-15 20:00</td>
                             <td th:text="${#numbers.formatDecimal(event.price, 0, 'COMMA', 2, 'POINT')}">$100.00</td>
                             <td th:text="${event.availableTickets}">500</td>
                             <td>
-                                <a th:href="@{'/web/events/' + ${event.id} + '/edit'}" class="btn btn-sm btn-warning">✏️ Editar</a>
-                                <a th:href="@{'/web/events/' + ${event.id} + '/delete'}"
+                                <span th:text="${event.status}" 
+                                      th:classappend="${event.status == 'ACTIVE'} ? 'badge bg-success' 
+                                                     : ${event.status == 'CANCELLED'} ? 'badge bg-danger'
+                                                     : ${event.status == 'COMPLETED'} ? 'badge bg-secondary'
+                                                     : 'badge bg-warning text-dark'">
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="@{'/web/events/edit/' + ${event.id}}" class="btn btn-sm btn-warning">✏️ Editar</a>
+                                <a th:href="@{'/web/events/delete/' + ${event.id}}"
                                    onclick="return confirm('¿Seguro que deseas eliminar este evento?')"
                                    class="btn btn-sm btn-danger">🗑️ Eliminar</a>
                             </td>
                         </tr>
+
+                        <!-- ✅ Mensaje si no hay eventos -->
                         <tr th:if="${#lists.isEmpty(events)}">
-                            <td colspan="8" class="text-center text-muted py-4">No hay eventos registrados</td>
+                            <td colspan="9" class="text-center text-muted py-4">No hay eventos registrados</td>
                         </tr>
                     </tbody>
                 </table>

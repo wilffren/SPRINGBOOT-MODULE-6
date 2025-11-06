@@ -3,7 +3,7 @@ package com.eventcatalog.controller.web;
 import com.eventcatalog.dto.EventFilterDTO;
 import com.eventcatalog.dto.EventRequestDTO;
 import com.eventcatalog.dto.EventResponseDTO;
-import com.eventcatalog.service.EventServiceImpl;
+import com.eventcatalog.service.IEventService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,7 +18,8 @@ import java.util.List;
 /**
  * Controlador web para la gestión de eventos con Thymeleaf.
  * 
- * Usa el servicio EventServiceImpl basado en DTOs, separado de las rutas REST.
+ * Usa el servicio IEventService (no la implementación directa),
+ * siguiendo el principio de Inversión de Dependencias (DIP).
  */
 @Slf4j
 @Controller
@@ -26,7 +27,7 @@ import java.util.List;
 public class WebEventController {
 
     @Autowired
-    private EventServiceImpl eventService;
+    private IEventService eventService;
 
     /**
      * 📄 Listar todos los eventos
@@ -57,6 +58,7 @@ public class WebEventController {
             model.addAttribute("event", eventDTO);
             return "events/form";
         } catch (Exception e) {
+            log.error("No se encontró el evento con ID: {}", id, e);
             redirectAttributes.addFlashAttribute("error", "No se encontró el evento con ID: " + id);
             return "redirect:/web/events";
         }
@@ -117,7 +119,6 @@ public class WebEventController {
             filters.setCategory(category);
             filters.setStartDate(startDate);
 
-            // usa findWithFilters() (paginado internamente)
             var page = eventService.findWithFilters(filters, null);
             List<EventResponseDTO> events = page.getContent();
 
