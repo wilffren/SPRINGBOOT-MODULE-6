@@ -48,11 +48,12 @@
                             <td th:text="${#numbers.formatDecimal(event.price, 0, 'COMMA', 2, 'POINT')}">$100.00</td>
                             <td th:text="${event.availableTickets}">500</td>
                             <td>
-                                <span th:text="${event.status}" 
-                                      th:classappend="${event.status == 'ACTIVE'} ? 'badge bg-success' 
-                                                     : ${event.status == 'CANCELLED'} ? 'badge bg-danger'
-                                                     : ${event.status == 'COMPLETED'} ? 'badge bg-secondary'
-                                                     : 'badge bg-warning text-dark'">
+                                <!-- ✅ Ternario corregido -->
+                                <span th:text="${event.status}"
+                                      th:classappend="${event.status == 'ACTIVE' ? 'badge bg-success' 
+                                                     : (event.status == 'CANCELLED' ? 'badge bg-danger' 
+                                                     : (event.status == 'COMPLETED' ? 'badge bg-secondary' 
+                                                     : 'badge bg-warning text-dark'))}">
                                 </span>
                             </td>
                             <td>
