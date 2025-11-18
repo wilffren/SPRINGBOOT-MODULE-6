@@ -1,0 +1,16 @@
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/dominio/ports/in/CrearUsuarioUseCase.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/in/web/UsuarioRestAdapter.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/out/jpa/UsuarioJpaAdapter.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/in/web/dto/UsuarioResponse.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/dominio/ports/in/EliminarUsuarioUseCase.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/config/ApplicationConfig.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/dominio/ports/out/UsuarioRepositoryPort.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/in/web/dto/UsuarioRequest.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/aplicacion/usecase/UsuarioService.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/Application.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/in/web/mapper/UsuarioDtoMapper.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/out/jpa/entity/UsuarioEntity.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/out/jpa/mapper/UsuarioMapper.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/dominio/ports/in/ObtenerUsuarioUseCase.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/dominio/model/Usuario.java
+/home/Coder/Música/HU-3/SPRINGBOOT-MODULE-6/src/main/java/com/example/infraestructura/adapters/out/jpa/repository/UsuarioJpaRepository.java
