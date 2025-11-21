@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS categories (
     INDEX idx_category_name (name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Datos de prueba iniciales
+-- Datos de prueba iniciales para venues y categories
 INSERT INTO venues (name, location, capacity, description) VALUES
 ('Teatro Nacional', 'San José, Costa Rica', 1500, 'Principal teatro del país'),
 ('Auditorio Municipal', 'Heredia, Costa Rica', 800, 'Auditorio para eventos culturales'),
@@ -53,9 +53,3 @@ INSERT INTO categories (name, description) VALUES
 ('Teatro', 'Obras de teatro y presentaciones'),
 ('Conferencia', 'Conferencias y charlas'),
 ('Deportes', 'Eventos deportivos');
-
-INSERT INTO events (name, description, start_date, end_date, status) VALUES
-('Concierto de Rock', 'Gran concierto de bandas locales', '2025-12-01 20:00:00', '2025-12-01 23:00:00', 'ACTIVE'),
-('Obra de Shakespeare', 'Romeo y Julieta en versión moderna', '2025-12-05 19:00:00', '2025-12-05 21:30:00', 'ACTIVE'),
-('Conferencia Tech', 'Tendencias en desarrollo de software', '2025-12-10 09:00:00', '2025-12-10 17:00:00', 'ACTIVE'),
-('Partido de Fútbol', 'Final del campeonato local', '2025-12-15 15:00:00', '2025-12-15 17:00:00', 'CANCELLED');
