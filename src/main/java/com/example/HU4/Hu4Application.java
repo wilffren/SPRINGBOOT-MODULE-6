@@ -3,23 +3,7 @@ package com.example.HU4;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * Aplicación principal - HU4 Task Management
- * 
- * Historia de Usuario: Administración de Tareas por Usuario con
- * Relaciones y Transacciones Optimizadas
- * 
- * Módulo 6 - Semana 4
- * Story Points: 10
- * 
- * Características implementadas:
- * - TASK 1: Relaciones OneToMany/ManyToOne con JPA
- * - TASK 2: Optimización de consultas (JPQL, Specifications, @EntityGraph)
- * - TASK 3: Transaccionalidad y Migraciones con Flyway
- * 
- * Arquitectura: Hexagonal (Puertos y Adaptadores)
- * Principios: SOLID + Clean Architecture
- */
+
 @SpringBootApplication
 public class Hu4Application {
 
