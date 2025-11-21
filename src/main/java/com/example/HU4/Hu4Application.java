@@ -3,7 +3,6 @@ package com.example.HU4;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
 public class Hu4Application {
 
@@ -14,24 +13,32 @@ public class Hu4Application {
 
 				╔══════════════════════════════════════════════════════════════╗
 				║                                                              ║
-				║       🚀 HU4 - TASK MANAGEMENT SYSTEM                        ║
+				║       🎪 HU4 - EVENTS & VENUES MANAGEMENT SYSTEM             ║
 				║                                                              ║
 				║       ✅ Arquitectura Hexagonal                              ║
-				║       ✅ Relaciones JPA Optimizadas                          ║
+				║       ✅ Relaciones JPA Optimizadas (OneToMany, ManyToMany)  ║
 				║       ✅ Consultas JPQL + Specifications                     ║
 				║       ✅ Transacciones @Transactional                        ║
 				║       ✅ Migraciones Flyway                                  ║
 				║                                                              ║
-				║       📡 API REST: http://localhost:8080/api/tasks           ║
-				║       📊 Endpoints disponibles:                              ║
-				║          POST   /api/tasks                                   ║
-				║          GET    /api/tasks                                   ║
-				║          GET    /api/tasks/{id}                              ║
-				║          GET    /api/tasks/search?filters                    ║
-				║          GET    /api/tasks/user/{userId}/optimized           ║
-				║          PUT    /api/tasks/{id}                              ║
-				║          PATCH  /api/tasks/{id}/complete                     ║
-				║          DELETE /api/tasks/{id}                              ║
+				║       📡 API REST Endpoints:                                 ║
+				║                                                              ║
+				║       🎫 EVENTS - http://localhost:8080/api/events           ║
+				║          POST   /api/events                                  ║
+				║          GET    /api/events                                  ║
+				║          GET    /api/events/{id}                             ║
+				║          GET    /api/events?venueId=1&status=ACTIVE          ║
+				║          PUT    /api/events/{id}                             ║
+				║          DELETE /api/events/{id}                             ║
+				║                                                              ║
+				║       🏛️  VENUES - http://localhost:8080/api/venues          ║
+				║          POST   /api/venues                                  ║
+				║          GET    /api/venues                                  ║
+				║          GET    /api/venues/{id}                             ║
+				║          GET    /api/venues/{id}/events                      ║
+				║          GET    /api/venues?minCapacity=1000                 ║
+				║          PUT    /api/venues/{id}                             ║
+				║          DELETE /api/venues/{id}                             ║
 				║                                                              ║
 				╚══════════════════════════════════════════════════════════════╝
 
