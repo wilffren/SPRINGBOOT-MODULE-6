@@ -3,6 +3,7 @@
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/ports/out/VenueRepositoryPort.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/dto/VenueResponse.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/model/User.java
+/home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/config/WebMvcConfig.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/model/EventStatus.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/dto/EventRequest.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/ports/in/VenueUseCase.java
@@ -15,6 +16,7 @@
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/validation/UpdateGroup.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/security/JwtService.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/ports/in/AuthUseCase.java
+/home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/config/ResponseBodyCaptureConfig.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/ports/out/UserRepositoryPort.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/model/Venue.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/model/Event.java
@@ -38,5 +40,6 @@
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/validation/DateRange.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/application/usecases/EventUseCaseImpl.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/entities/VenueEntity.java
+/home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/config/JwtTokenDisplayInterceptor.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/security/JwtAuthenticationFilter.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/repositories/JpaUserRepository.java
