@@ -15,7 +15,6 @@ com/example/HU4/infrastructure/dto/VenueResponse$VenueResponseBuilder.class
 com/example/HU4/infrastructure/repositories/JpaEventRepository.class
 com/example/HU4/infrastructure/config/GlobalExceptionHandler.class
 com/example/HU4/infrastructure/repositories/JpaUserRepository.class
-com/example/HU4/HU4Application.class
 com/example/HU4/infrastructure/config/SecurityConfig.class
 com/example/HU4/infrastructure/dto/VenueRequest$VenueRequestBuilder.class
 com/example/HU4/domain/model/Venue.class
