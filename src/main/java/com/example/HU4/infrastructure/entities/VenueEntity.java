@@ -1,7 +1,7 @@
 package com.example.HU4.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
+
 
 @Entity
 @Table(name = "venues")
