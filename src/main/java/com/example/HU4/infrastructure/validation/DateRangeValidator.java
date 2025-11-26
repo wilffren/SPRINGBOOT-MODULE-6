@@ -1,26 +1,34 @@
-package main.java.com.example.HU4.infrastructure.validation;
+package com.example.HU4.infrastructure.validation;
+
+import com.example.HU4.infrastructure.dto.EventRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.beans.BeanWrapperImpl;
+
 import java.time.LocalDateTime;
 
 public class DateRangeValidator implements ConstraintValidator<DateRange, Object> {
-    private String startDateField;
-    private String endDateField;
 
     @Override
     public void initialize(DateRange constraintAnnotation) {
-        this.startDateField = constraintAnnotation.startDate();
-        this.endDateField = constraintAnnotation.endDate();
+        // No initialization needed
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        Object start = new BeanWrapperImpl(value).getPropertyValue(startDateField);
-        Object end = new BeanWrapperImpl(value).getPropertyValue(endDateField);
-        if (start != null && end != null) {
-            return ((LocalDateTime) start).isBefore((LocalDateTime) end);
+        if (value == null) {
+            return true;
         }
+
+        if (value instanceof EventRequest) {
+            EventRequest request = (EventRequest) value;
+            LocalDateTime start = request.getStartDate();
+            LocalDateTime end = request.getEndDate();
+
+            if (start != null && end != null) {
+                return start.isBefore(end);
+            }
+        }
+
         return true;
     }
 }

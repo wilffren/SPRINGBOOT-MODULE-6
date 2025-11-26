@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.application.usecases;
+package com.example.HU4.application.usecases;
 
 import com.example.HU4.domain.model.Venue;
 import com.example.HU4.domain.ports.in.VenueUseCase;

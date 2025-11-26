@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.infrastructure.mappers;
+package com.example.HU4.infrastructure.mappers;
 import com.example.HU4.domain.model.Venue;
 import com.example.HU4.infrastructure.entities.VenueEntity;
 import org.springframework.stereotype.Component;

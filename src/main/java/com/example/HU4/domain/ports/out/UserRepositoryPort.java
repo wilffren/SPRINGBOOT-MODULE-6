@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.domain.ports.out;
+package com.example.HU4.domain.ports.out;
 import com.example.HU4.domain.model.User;
 import java.util.Optional;
 

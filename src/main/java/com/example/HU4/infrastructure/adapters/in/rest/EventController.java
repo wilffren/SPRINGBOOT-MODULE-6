@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.infrastructure.adapters.in.rest;
+package com.example.HU4.infrastructure.adapters.in.rest;
 
 import com.example.HU4.domain.model.Event;
 import com.example.HU4.domain.ports.in.EventUseCase;

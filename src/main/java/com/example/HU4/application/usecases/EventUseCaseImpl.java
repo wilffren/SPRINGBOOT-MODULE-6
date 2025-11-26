@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.application.usecases;
+package com.example.HU4.application.usecases;
 
 import com.example.HU4.domain.model.Event;
 import com.example.HU4.domain.ports.in.EventUseCase;
@@ -42,8 +42,18 @@ public class EventUseCaseImpl implements EventUseCase {
         if (!eventRepositoryPort.existsById(id)) {
             throw new RuntimeException("Evento no encontrado con ID: " + id);
         }
-        event.setId(id);
-        return eventRepositoryPort.save(event);
+        // Rebuild with the provided ID since Event is immutable (@Builder)
+        Event eventWithId = Event.builder()
+                .id(id)
+                .name(event.getName())
+                .description(event.getDescription())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
+                .status(event.getStatus())
+                .venueId(event.getVenueId())
+                .venue(event.getVenue())
+                .build();
+        return eventRepositoryPort.save(eventWithId);
     }
 
     @Override

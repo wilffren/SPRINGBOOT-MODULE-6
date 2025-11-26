@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.infrastructure.entities;
+package com.example.HU4.infrastructure.entities;
 import com.example.HU4.domain.model.EventStatus;
 import jakarta.persistence.*;
 import lombok.*;

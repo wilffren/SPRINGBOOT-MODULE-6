@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.domain.model;
+package com.example.HU4.domain.model;
 
 import lombok.*;
 import java.time.LocalDateTime;

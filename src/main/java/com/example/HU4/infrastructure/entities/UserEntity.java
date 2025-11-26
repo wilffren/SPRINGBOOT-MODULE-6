@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.infrastructure.entities;
+package com.example.HU4.infrastructure.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

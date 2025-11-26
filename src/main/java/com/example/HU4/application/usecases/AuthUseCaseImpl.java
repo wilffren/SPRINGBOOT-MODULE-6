@@ -1,4 +1,4 @@
-package main.java.com.example.HU4.application.usecases;
+package com.example.HU4.application.usecases;
 
 import com.example.HU4.domain.model.User;
 import com.example.HU4.domain.ports.in.AuthUseCase;
@@ -17,7 +17,8 @@ public class AuthUseCaseImpl implements AuthUseCase {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthUseCaseImpl(UserRepositoryPort userRepositoryPort, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthUseCaseImpl(UserRepositoryPort userRepositoryPort, PasswordEncoder passwordEncoder,
+            JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userRepositoryPort = userRepositoryPort;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -29,10 +30,18 @@ public class AuthUseCaseImpl implements AuthUseCase {
         if (userRepositoryPort.existsByUsername(user.getUsername())) {
             throw new RuntimeException("El usuario ya existe");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
-        User saved = userRepositoryPort.save(user);
-        return jwtService.generateToken(saved.getUsername(), saved.getRole());
+        // Rebuild user with encoded password and role since User is immutable
+        User userToSave = User.builder()
+                .username(user.getUsername())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .role("ROLE_USER")
+                .build();
+        User saved = userRepositoryPort.save(userToSave);
+        // Create a simple UserDetails for JWT generation
+        return jwtService.generateToken(new org.springframework.security.core.userdetails.User(
+                saved.getUsername(),
+                saved.getPassword(),
+                java.util.Collections.emptyList()));
     }
 
     @Override
@@ -40,6 +49,10 @@ public class AuthUseCaseImpl implements AuthUseCase {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         User user = userRepositoryPort.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        return jwtService.generateToken(user.getUsername(), user.getRole());
+        // Create a simple UserDetails for JWT generation
+        return jwtService.generateToken(new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                java.util.Collections.emptyList()));
     }
 }
