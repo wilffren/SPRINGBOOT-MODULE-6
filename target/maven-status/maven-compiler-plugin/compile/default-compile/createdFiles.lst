@@ -20,6 +20,7 @@ com/example/HU4/infrastructure/config/SecurityConfig.class
 com/example/HU4/infrastructure/dto/VenueRequest$VenueRequestBuilder.class
 com/example/HU4/domain/model/Venue.class
 com/example/HU4/domain/model/Event.class
+com/example/HU4/infrastructure/security/CustomUserDetailsService.class
 com/example/HU4/infrastructure/adapters/out/persistence/UserPersistenceAdapter.class
 com/example/HU4/infrastructure/adapters/out/persistence/VenuePersistenceAdapter.class
 com/example/HU4/infrastructure/dto/EventRequest.class

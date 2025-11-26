@@ -23,6 +23,7 @@
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/domain/ports/out/EventRepositoryPort.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/HU4Application.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/adapters/out/persistence/UserPersistenceAdapter.java
+/home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/security/CustomUserDetailsService.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/adapters/in/rest/AuthController.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/mappers/VenueMapper.java
 /home/Coder/Vídeos/SPRINGBOOT-MODULE-6/src/main/java/com/example/HU4/infrastructure/adapters/out/persistence/VenuePersistenceAdapter.java
