@@ -1,0 +1,89 @@
+# ========================================
+# CONFIGURACIÓN PRINCIPAL DE LA APLICACIÓN
+# ========================================
+
+spring:
+  application:
+    name: event-catalog-api
+
+  # Perfil activo (dev, prod)
+  profiles:
+    active: dev
+
+  # Configuración de la Base de Datos MySQL
+  datasource:
+    url: jdbc:mysql://localhost:3306/event_catalog_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: Qwe.123*
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    
+    # Pool de conexiones HikariCP (por defecto en Spring Boot)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  # Configuración de JPA e Hibernate
+  jpa:
+    # Dialecto específico de MySQL
+    database-platform: org.hibernate.dialect.MySQLDialect
+    
+    # Estrategia de generación de esquema
+    # create: Crea el esquema desde cero (elimina datos existentes)
+    # create-drop: Crea al iniciar, elimina al cerrar
+    # update: Actualiza el esquema sin eliminar datos
+    # validate: Solo valida que el esquema coincida con las entidades
+    # none: No hace nada
+    hibernate:
+      ddl-auto: update
+    
+    # Mostrar SQL en consola (útil para desarrollo)
+    show-sql: true
+    
+    # Formatear SQL para mejor legibilidad
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        # Habilitar estadísticas de Hibernate (opcional)
+        generate_statistics: false
+
+# Configuración del servidor
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+
+# Configuración de Logging
+logging:
+  level:
+    root: INFO
+    com.eventcatalog: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/event-catalog.log
+
+# Configuración de Thymeleaf
+  thymeleaf:
+    cache: false  # Desactivar caché en desarrollo
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+
+# Configuración de mensajes de error personalizados
+server.error:
+  whitelabel:
+    enabled: false

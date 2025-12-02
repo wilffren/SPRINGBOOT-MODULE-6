@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Nuevo Evento</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="container mt-4">
+        <div class="card shadow p-4">
+            <h2 class="mb-4 fw-bold">🎉 Crear Nuevo Evento</h2>
+
+            <form th:action="@{/web/events/save}" th:object="${event}" method="post" class="needs-validation" novalidate>
+
+                <!-- Campo oculto para editar -->
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="mb-3">
+                    <label for="name" class="form-label fw-semibold">Nombre del evento:</label>
+                    <input type="text" th:field="*{name}" class="form-control" id="name"
+                           placeholder="Ej. Concierto de Rock" required />
+                    <div class="invalid-feedback">El nombre es obligatorio.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label fw-semibold">Descripción:</label>
+                    <textarea th:field="*{description}" class="form-control" id="description" rows="3"
+                              placeholder="Describe el evento..." required></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="category" class="form-label fw-semibold">Categoría:</label>
+                        <input type="text" th:field="*{category}" class="form-control" id="category"
+                               placeholder="Ej. Música, Teatro, Deporte" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="city" class="form-label fw-semibold">Ciudad:</label>
+                        <input type="text" th:field="*{city}" class="form-control" id="city"
+                               placeholder="Ej. Madrid, Bogotá, CDMX" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="eventDate" class="form-label fw-semibold">Fecha del evento:</label>
+                        <input type="datetime-local" th:field="*{eventDate}" class="form-control" id="eventDate" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label fw-semibold">Precio:</label>
+                        <input type="number" step="0.01" th:field="*{price}" class="form-control" id="price" required />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="availableTickets" class="form-label fw-semibold">Entradas disponibles:</label>
+                        <input type="number" th:field="*{availableTickets}" class="form-control" id="availableTickets" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="imageUrl" class="form-label fw-semibold">URL de imagen:</label>
+                        <input type="url" th:field="*{imageUrl}" class="form-control" id="imageUrl"
+                               placeholder="https://..." />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="status" class="form-label fw-semibold">Estado:</label>
+                    <select th:field="*{status}" class="form-select" id="status">
+                        <option value="ACTIVE">Activo</option>
+                        <option value="CANCELLED">Cancelado</option>
+                        <option value="COMPLETED">Completado</option>
+                        <option value="POSTPONED">Pospuesto</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success me-2">💾 Guardar</button>
+                    <a th:href="@{/web/events}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Validación bootstrap
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</main>
+</body>
+</html>

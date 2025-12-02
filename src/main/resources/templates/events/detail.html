@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${event.name}">Detalle del Evento</title>
+</head>
+<body>
+    <main layout:fragment="content">
+        <div class="container mt-4">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">Inicio</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/web/events}">Eventos</a></li>
+                    <li class="breadcrumb-item active" th:text="${event.name}">Evento</li>
+                </ol>
+            </nav>
+
+            <div class="row">
+                <!-- Columna principal -->
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <!-- Imagen del evento -->
+                        <img th:if="${event.imageUrl}" 
+                             th:src="${event.imageUrl}" 
+                             class="card-img-top" 
+                             th:alt="${event.name}"
+                             style="height: 400px; object-fit: cover;"
+                             onerror="this.src='https://via.placeholder.com/800x400?text=Evento'">
+                        <img th:unless="${event.imageUrl}" 
+                             src="https://via.placeholder.com/800x400?text=Evento" 
+                             class="card-img-top" 
+                             alt="Evento"
+                             style="height: 400px; object-fit: cover;">
+                        
+                        <div class="card-body">
+                            <!-- Badges -->
+                            <div class="mb-3">
+                                <span class="badge bg-primary me-2" th:text="${event.category}">Categoría</span>
+                                <span class="badge" 
+                                      th:classappend="${event.status == 'ACTIVE' ? 'bg-success' : 'bg-secondary'}"
+                                      th:text="${event.status}">Estado</span>
+                            </div>
+                            
+                            <!-- Título -->
+                            <h1 class="display-5 fw-bold mb-3" th:text="${event.name}">Nombre del Evento</h1>
+                            
+                            <!-- Descripción -->
+                            <h5 class="text-muted mb-3">📝 Descripción</h5>
+                            <p class="lead" th:text="${event.description}">
+                                Descripción completa del evento...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna lateral -->
+                <div class="col-lg-4">
+                    <!-- Información del evento -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">ℹ️ Información del Evento</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <h6 class="text-muted mb-2">💰 Precio</h6>
+                                <h3 class="text-primary mb-0">
+                                    $<span th:text="${#numbers.formatDecimal(event.price, 0, 'COMMA', 0, 'POINT')}">0</span>
+                                </h3>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted mb-2">📅 Fecha y Hora</h6>
+                                <p class="mb-0" th:text="${#temporals.format(event.eventDate, 'EEEE, dd MMMM yyyy')}">Fecha</p>
+                                <p class="mb-0" th:text="${#temporals.format(event.eventDate, 'HH:mm')}">Hora</p>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3" th:if="${event.venue != null}">
+                                <h6 class="text-muted mb-2">📍 Ubicación</h6>
+                                <p class="mb-1 fw-bold" th:text="${event.venue.name}">Lugar</p>
+                                <p class="mb-0 small" th:text="${event.venue.address}">Dirección</p>
+                                <p class="mb-0 small text-muted" th:text="${event.city}">Ciudad</p>
+                            </div>
+                            
+                            <div class="mb-3" th:if="${event.venue == null}">
+                                <h6 class="text-muted mb-2">📍 Ubicación</h6>
+                                <p class="mb-0 small text-muted fst-italic">Sin lugar asignado</p>
+                                <p class="mb-0 small" th:text="${event.city}">Ciudad</p>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3" th:if="${event.venue != null}">
+                                <h6 class="text-muted mb-2">👥 Capacidad</h6>
+                                <p class="mb-0">
+                                    Capacidad del lugar: <strong th:text="${event.venue.capacity}">0</strong>
+                                </p>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted mb-2">🎫 Entradas Disponibles</h6>
+                                <h4 class="mb-0">
+                                    <span th:text="${event.availableTickets}">0</span>
+                                    <span class="badge" 
+                                          th:classappend="${event.availableTickets > 0 ? 'bg-success' : 'bg-danger'}">
+                                        <span th:if="${event.availableTickets > 0}">Disponible</span>
+                                        <span th:unless="${event.availableTickets > 0}">Agotado</span>
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acciones -->
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">⚙️ Acciones</h5>
+                        </div>
+                        <div class="card-body">
+                            <a th:href="@{/web/events/{id}/edit(id=${event.id})}" 
+                               class="btn btn-warning w-100 mb-2">
+                                ✏️ Editar Evento
+                            </a>
+                            
+                            <form th:action="@{/web/events/{id}/delete(id=${event.id})}" 
+                                  method="post"
+                                  onsubmit="return confirm('¿Estás seguro de eliminar este evento?');">
+                                <button type="submit" class="btn btn-danger w-100 mb-2">
+                                    🗑️ Eliminar Evento
+                                </button>
+                            </form>
+                            
+                            <a th:href="@{/web/events}" class="btn btn-outline-secondary w-100">
+                                ← Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Información del Lugar -->
+                    <div class="card mt-4" th:if="${event.venue != null}">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">🏢 Sobre el Lugar</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="fw-bold" th:text="${event.venue.name}">Nombre del Lugar</h6>
+                            <p class="mb-2 small" th:text="${event.venue.address}">Dirección</p>
+                            <p class="mb-2 small">
+                                <strong>Ciudad:</strong> <span th:text="${event.venue.city}">Ciudad</span>
+                            </p>
+                            <p class="mb-0 small">
+                                <strong>Capacidad:</strong> <span th:text="${event.venue.capacity}">0</span> personas
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metadatos -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <small class="text-muted">
+                                <strong>Creado:</strong> 
+                                <span th:text="${#temporals.format(event.createdAt, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                                | 
+                                <strong>Última actualización:</strong> 
+                                <span th:text="${#temporals.format(event.updatedAt, 'dd/MM/yyyy HH:mm')}">Fecha</span>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
